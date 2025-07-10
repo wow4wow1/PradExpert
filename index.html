@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PrądExpert – Instalacje Elektryczne</title>
+  <style>
+    :root {
+      --primary: #007bff;
+      --accent: #28a745;
+      --text: #333;
+      --background: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--background);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    header {
+      background: #1a1a1a;
+      color: var(--white);
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 30px;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .section {
+      margin-bottom: 60px;
+    }
+
+    .section h2 {
+      color: var(--text);
+      border-bottom: 3px solid var(--primary);
+      display: inline-block;
+      margin-bottom: 25px;
+      padding-bottom: 5px;
+      font-size: 1.8rem;
+    }
+
+    /* === SLIDER === */
+    .slider-wrapper {
+      position: relative;
+    }
+
+    .slider {
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .slider img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    .slider img.active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .slider-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 15px;
+      z-index: 3;
+    }
+
+    .slider-controls button {
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: var(--white);
+      font-size: 28px;
+      padding: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .slider-controls button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .thumbnails {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .thumbnails img {
+      width: 90px;
+      height: 50px;
+      object-fit: cover;
+      border: 2px solid transparent;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: border 0.3s;
+    }
+
+    .thumbnails img.active {
+      border: 2px solid var(--primary);
+    }
+
+    .dots {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .dots span {
+      height: 12px;
+      width: 12px;
+      margin: 0 6px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.3s;
+    }
+
+    .dots span.active {
+      background-color: var(--primary);
+    }
+
+    .reviews {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .review-card {
+      display: flex;
+      gap: 20px;
+      background: #f0f2f5;
+      padding: 20px;
+      border-radius: 10px;
+      align-items: flex-start;
+      box-shadow: var(--shadow);
+    }
+
+    .review-card img {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+    }
+
+    .review-card .stars {
+      color: #ffc107;
+      font-size: 18px;
+      margin: 6px 0;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .input-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-group label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .btn, .call-btn {
+      background-color: var(--accent);
+      color: var(--white);
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover, .call-btn:hover {
+      background-color: #218838;
+    }
+
+    .call-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    footer {
+      background: #1a1a1a;
+      color: var(--white);
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 600px) {
+      .form-row {
+        flex-direction: column;
+      }
+
+      .review-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .review-card img {
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>PrądExpert</h1>
+    <p>Oferujemy kompleksowe usługi elektryczne dla domów, mieszkań i firm. Specjalizujemy się w montażu i modernizacji instalacji elektrycznych, energooszczędnym oświetleniu LED, a także wykonywaniu profesjonalnych pomiarów bezpieczeństwa instalacji zgodnie z obowiązującymi normami. Gwarantujemy szybki dojazd, fachowe doradztwo i najwyższą jakość usług.</p>
+  </header>
+
+  <div class="container">
+    <div class="section">
+      <h2>Galeria</h2>
+      <div class="slider-wrapper">
+        <div class="slider" id="slider">
+          <img src="1.jpg" text="Instalacja" class="active" />
+          <img src="2.jpg" text="LED+oświetlenie" />
+          <img src="3.jpg" text="LED" />
+          <img src="4.jpg" text="LED" />
+          <img src="5.jpg" text="LED" />
+        </div>
+        <div class="slider-controls">
+          <button onclick="prevSlide()">❮</button>
+          <button onclick="nextSlide()">❯</button>
+        </div>
+        <div class="dots" id="dots"></div>
+        <div class="thumbnails" id="thumbnails"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Opinie klientów</h2>
+      <div class="reviews">
+        <div class="review-card">
+          <img src="https://i.pravatar.cc/80?u=anna" alt="Anna K.">
+          <div>
+            <strong>Anna K.</strong>
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>Bardzo profesjonalna obsługa, szybki montaż instalacji. Polecam z całego serca!</p>
+          </div>
+        </div>
+        <div class="review-card">
+          <img src="https://i.pravatar.cc/80?u=piotr" alt="Piotr Z.">
+          <div>
+            <strong>Piotr Z.</strong>
+            <div class="stars">⭐⭐⭐⭐</div>
+            <p>Wszystko zgodnie z ustaleniami, czysto i fachowo. Trochę drogo, ale warto.</p>
+          </div>
+        </div>
+        <div class="review-card">
+          <img src="https://i.pravatar.cc/80?u=marta" alt="Marta L.">
+          <div>
+            <strong>Marta L.</strong>
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>Modernizacja oświetlenia LED przebiegła sprawnie. Jestem mega zadowolona.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Formularz kontaktowy</h2>
+      <form id="contactForm" class="contact-form">
+        <div class="form-row">
+          <div class="input-group">
+            <label for="name">👤 Imię i nazwisko</label>
+            <input type="text" id="name" required>
+          </div>
+          <div class="input-group">
+            <label for="phone">📱 Telefon</label>
+            <input type="text" id="phone" required>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="message">✉️ Wiadomość</label>
+          <textarea id="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn">Wyślij przez WhatsApp</button>
+      </form>
+
+      <div class="call-section">
+        <p>Lub zadzwoń bezpośrednio:</p>
+        <a class="call-btn" href="tel:+48884739921">📞 Zadzwoń teraz</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 PrądExpert – Wszystkie prawa zastrzeżone
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll("#slider img");
+    const dotsContainer = document.getElementById("dots");
+    const thumbnailsContainer = document.getElementById("thumbnails");
+
+    let current = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === index);
+      });
+      document.querySelectorAll(".dots span").forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+      });
+      document.querySelectorAll(".thumbnails img").forEach((thumb, i) => {
+        thumb.classList.toggle("active", i === index);
+      });
+      current = index;
+    }
+
+    function nextSlide() {
+      showSlide((current + 1) % slides.length);
+    }
+
+    function prevSlide() {
+      showSlide((current - 1 + slides.length) % slides.length);
+    }
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement("span");
+      if (i === 0) dot.classList.add("active");
+      dot.onclick = () => showSlide(i);
+      dotsContainer.appendChild(dot);
+
+      const thumb = document.createElement("img");
+      thumb.src = slides[i].src;
+      if (i === 0) thumb.classList.add("active");
+      thumb.onclick = () => showSlide(i);
+      thumbnailsContainer.appendChild(thumb);
+    });
+
+    setInterval(nextSlide, 6000);
+
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const message = document.getElementById("message").value;
+      const text = encodeURIComponent(`Cześć! Mam na imię ${name}, mój numer to ${phone}. Wiadomość: ${message}`);
+      const target = "48884739921"; // Twój numer
+      window.open(`https://wa.me/${target}?text=${text}`, "_blank");
+    });
+  </script>
+</body>
+</html>
